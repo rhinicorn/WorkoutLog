@@ -1,53 +1,30 @@
-const express = require("express");
-const app = express();
+require('dotenv').config();
 
-const db= require("./db");
+const Express = require("express"); 
+const app = Express();
+const dbConnection = require("./db");
+
 const controllers = require("./controllers");
 
-
-app.use(require("./middleware/headers"));
-//app.use(express.json());
-
-db.authenticate()
-  .then(() => db.sync()) // => {force: true}
-  .then(() => {
-    app.listen(3000, () =>
-      console.log(`[Server:workout-server ] App is listening on Port ${3000}`)
-    );
-  })
-  .catch((err) => {
-    console.log("[Server:workout-server ] Server Crashed");
-    console.error(err);
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.use(Express.json());
 
 app.use("/user", controllers.usercontroller);
+
+app.use(require("./middleware/validate-jwt"));
+app.use(require("./middleware/headers"));
 app.use("/log", controllers.logcontroller);
 
-
-
-db.authenticate()
-  .then(() => db.sync()) // => {force: true}
+dbConnection.authenticate()
+  .then(() => dbConnection.sync()) // => {force: true}
   .then(() => {
-    app.listen(3000, () =>
-      console.log(`[Server:workout-server ] App is listening on Port ${3000}`)
-    );
+    app.listen(3000, () => {
+      console.log(`[Server:workout-server ] App is listening on Port ${3000}`);
+        });
   })
   .catch((err) => {
-    console.log("[Server:workout-server ] Server Crashed");
-    console.error(err);
+    console.log(`[Server:workout-server ]: Server Crashed. Error=${err}`);
+    //console.error(err);
   });
+
+
+

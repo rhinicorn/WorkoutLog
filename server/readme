@@ -1,0 +1,13 @@
+
+//git init (at server level)
+//npm install <name of dependency>  (install dependencies to package.json)
+//npm update when changes are made
+
+Why package.json?
+  //info relevant to the project
+  //info given to NPM for it to identify and interact with the project
+  //list dependencies
+
+//add node_modules/ to .gitignore
+
+//make an express server - app.json
